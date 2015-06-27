@@ -179,20 +179,21 @@ windDir = {
     "N":   "\033[1m↓\033[0m",
     "NNE": "\033[1m↓\033[0m",
     "NE":  "\033[1m↙\033[0m",
-	"ENE": "\033[1m↙\033[0m",
-	"E":   "\033[1m←\033[0m",
-	"ESE": "\033[1m←\033[0m",
+    "ENE": "\033[1m↙\033[0m",
+    "E":   "\033[1m←\033[0m",
+    "ESE": "\033[1m←\033[0m",
     "SE":  "\033[1m↖\033[0m",
-	"SSE": "\033[1m↖\033[0m",
-	"S":   "\033[1m↑\033[0m",
-	"SSW": "\033[1m↑\033[0m",
-	"SW":  "\033[1m↗\033[0m",
-	"WSW": "\033[1m↗\033[0m",
-	"W":   "\033[1m→\033[0m",
-	"WNW": "\033[1m→\033[0m",
-	"NW":  "\033[1m↘\033[0m",
-	"NNW": "\033[1m↘\033[0m",
-        }
+    "SSE": "\033[1m↖\033[0m",
+    "S":   "\033[1m↑\033[0m",
+    "SSW": "\033[1m↑\033[0m",
+    "SW":  "\033[1m↗\033[0m",
+    "WSW": "\033[1m↗\033[0m",
+    "W":   "\033[1m→\033[0m",
+    "WNW": "\033[1m→\033[0m",
+    "NW":  "\033[1m↘\033[0m",
+    "NNW": "\033[1m↘\033[0m",
+}
+
 
 class Query(object):
         def __init__(self, day, city):
@@ -211,12 +212,12 @@ class Query(object):
 
         def query(self):
                 # 使用resquests
-                # p={"q":"%s"%self.city,"num_of_days":3,"format":"json","key":"55f1fdd05fba23be0a18043d0a017","lang":"zh"}
+                # p={"q":"%s"%self.city, "num_of_days":3, "format":"json", "key":"55f1fdd05fba23be0a18043d0a017", "lang":"zh"}
                 # response=requests.get(base_url,params=p)
                 # json_string = response.text
 
                 #使用urllib
-                url = base_url + "?key=55f1fdd05fba23be0a18043d0a017&q=%s&num_of_days=3&format=json&lang=zh"%self.city
+                url = base_url + "?key=55f1fdd05fba23be0a18043d0a017&q=%s&num_of_days=3&format=json&lang=zh" % self.city
                 response = urllib.urlopen(url)
                 json_string = response.read()
                 parsed_json = json.loads(json_string)
@@ -225,7 +226,7 @@ class Query(object):
                 try:
                         self.weather = data['weather'][self.day]            # 获取天气预报,[]内０代表当天,1代表明天，以此类推。
                 except KeyError:
-                        print "\033[1;31;49m"+"请输入正确的城市或地区！"+"\033[0m"
+                        print "\033[1;31;49m" + "请输入正确的城市或地区！" + "\033[0m"
                         sys.exit()
                 self.date = self.weather['date']
 
@@ -239,18 +240,18 @@ class Query(object):
                 self.chanceofrain = self.hourly['chanceofrain']
                 self.chanceofsnow = self.hourly['chanceofsnow']
                 self.humidity = self.hourly['humidity']
-                self.chanceofwater = int(self.chanceofrain) if int(self.chanceofrain)>int(self.chanceofsnow) else int(self.chanceofsnow)
+                self.chanceofwater = int(self.chanceofrain) if int(self.chanceofrain) > int(self.chanceofsnow) else int(self.chanceofsnow)
 
         def printSingle(self):
                 l1 = l2 = l3 = l4 = l5 = ''
                 for time in self.time:
                         self.detail(time)
 
-                        l1 += '│'+icons[codes[self.weatherCode]][0]+self.hourly['lang_zh'][0]['value'].encode("utf-8")+'\t\t' if len(self.hourly['lang_zh'][0]['value'].encode("utf-8")) <=12 else '│'+icons[codes[self.weatherCode]][0]+self.hourly['lang_zh'][0]['value'].encode("utf-8")+'\t'
-                        l2 += '│'+icons[codes[self.weatherCode]][1]+temp_color(self.tempC)+"°C"+'\t\t'
-                        l3 += '│'+icons[codes[self.weatherCode]][2]+windDir[self.winddir16Point]+" "+wind_color(self.windspeedKmph)+"km/h"+'\t\t'
-                        l4 += '│'+icons[codes[self.weatherCode]][3]+"降水概率:"+str(self.chanceofwater)+"%"+'\t'
-                        l5 += '│'+icons[codes[self.weatherCode]][4]+"湿度:"+str(self.humidity)+"%"+'\t\t'
+                        l1 += '│' + icons[codes[self.weatherCode]][0] + self.hourly['lang_zh'][0]['value'].encode("utf-8") + '\t\t' if len(self.hourly['lang_zh'][0]['value'].encode("utf-8")) <= 12 else '│' + icons[codes[self.weatherCode]][0] + self.hourly['lang_zh'][0]['value'].encode("utf-8") + '\t'
+                        l2 += '│' + icons[codes[self.weatherCode]][1] + temp_color(self.tempC) + "°C"+'\t\t'
+                        l3 += '│' + icons[codes[self.weatherCode]][2] + windDir[self.winddir16Point]+" "+ wind_color(self.windspeedKmph) + "km/h" + '\t\t'
+                        l4 += '│' + icons[codes[self.weatherCode]][3] + "降水概率:" + str(self.chanceofwater) + "%" + '\t'
+                        l5 += '│' + icons[codes[self.weatherCode]][4] + "湿度:" + str(self.humidity) + "%" + '\t\t'
 
                 print l1+"│"
                 print l2+"│"
@@ -259,9 +260,9 @@ class Query(object):
                 print l5+"│"
 
         def printDay(self, delta):
-                date_time = datetime.strftime(datetime.today()+timedelta(days=delta),"%Y-%m-%d")
+                date_time = datetime.strftime(datetime.today() + timedelta(days=delta),"%Y-%m-%d")
                 line1 = "                                                         ┌─────────────┐                                                       "
-                line2 = "┌───────────────────────────────┬──────────────────────────%s───────────────────────────┬───────────────────────────────┐"%date_time
+                line2 = "┌───────────────────────────────┬──────────────────────────%s───────────────────────────┬───────────────────────────────┐" % date_time
                 line3 = "│           Morning             │             Noon       └──────┬──────┘    Evening             │            Night              │"
                 line4 = "├───────────────────────────────┼───────────────────────────────┼───────────────────────────────┼───────────────────────────────┤"
                 endline= "└───────────────────────────────┴───────────────────────────────┴───────────────────────────────┴───────────────────────────────┘"
@@ -274,28 +275,28 @@ class Query(object):
 
 def temp_color(temp):
         if temp >= 35 or temp <= -10:
-                color = "\033[1;31;49m"+str(temp)+"\033[0m"
+                color = "\033[1;31;49m" + str(temp) + "\033[0m"
         elif (temp >= 25 and temp <35):
-                color = "\033[1;33;49m"+str(temp)+"\033[0m"
+                color = "\033[1;33;49m" + str(temp) + "\033[0m"
         elif temp > 10 and temp < 25:
-                color = "\033[1;32;49m"+str(temp)+"\033[0m"
+                color = "\033[1;32;49m" + str(temp) + "\033[0m"
         elif temp >-10 and temp <= 10:
-                color = "\033[1;34;49m"+str(temp)+"\033[0m"
+                color = "\033[1;34;49m" + str(temp) + "\033[0m"
         return color
 def wind_color(windspeed):
         if windspeed <= 5:
-                color = "\033[1;32;49m"+str(windspeed)+"\033[0m"
+                color = "\033[1;32;49m" + str(windspeed) + "\033[0m"
         elif windspeed > 5 and windspeed <=10:
-                color = "\033[1;33;49m"+str(windspeed)+"\033[0m"
+                color = "\033[1;33;49m" + str(windspeed) + "\033[0m"
         else:
-                color = "\033[1;34;49m"+str(windspeed)+"\033[0m"
+                color = "\033[1;34;49m" + str(windspeed) + "\033[0m"
         return color
 
 def main():
         try:
                 city = sys.argv[1]
         except IndexError:
-                print "\033[1;31;49m"+"请输入您要查询的城市或地区："+"\033[0m"
+                print "\033[1;31;49m" + "请输入您要查询的城市或地区：" + "\033[0m"
                 city = raw_input()
                 if city == '':
                         sys.exit()
