@@ -10,6 +10,8 @@
 屏幕截图
 ![屏幕截图](https://github.com/smartczy/weather_py/raw/master/src/weather.png)
 #使用方法
+**注意：运行程序前，请先在Query类中写入你自己的API key。**
+
 终端需要在全屏状态下，否则排版会被打乱。
 
 在终端中输入的格式为：
