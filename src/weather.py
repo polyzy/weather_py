@@ -310,6 +310,11 @@ def main():
                 city = raw_input()
                 if city == '':
                         sys.exit()
+        
+        with open('city2pinyin.json', 'r') as c2p:
+                dic = json.load(c2p)
+                city = dic[city.decode('utf-8')] if city.decode('utf-8') in dic else city
+
         day = [0,1,2]
         for i in day:
                 query = Query(i,city)
